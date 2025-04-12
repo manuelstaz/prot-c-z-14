@@ -99,8 +99,7 @@
       localStorage.setItem("folio_recibo_pcz", folio);
       const folioTexto = "PCZ-" + String(folio).padStart(4, "0");
 
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
+      const doc = new window.jspdf.jsPDF();
 
       const logo = new Image();
       logo.crossOrigin = "anonymous";
