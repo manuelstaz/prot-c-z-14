@@ -1,43 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Prueba de conexión con Apps Script</title>
+  <meta charset="UTF-8">
+  <title>Prueba directa</title>
 </head>
-<body style="font-family: Arial; padding: 2rem;">
-  <h2>✅ Prueba de conexión con Google Sheets</h2>
-  <p>Haz clic en el botón para enviar un ingreso de prueba a tu hoja de cálculo.</p>
-
-  <button onclick="probarConexion()" style="padding: 1rem; background: #f4c430; border: none; border-radius: 8px; cursor: pointer;">
-    Enviar prueba
-  </button>
-
-  <p id="resultado" style="margin-top: 1rem; font-weight: bold;"></p>
+<body>
+  <h2>Conectando con Google Sheets...</h2>
+  <p id="resultado" style="font-weight: bold; color: green;"></p>
 
   <script>
-    const URL_SCRIPT = "https://script.google.com/macros/s/AKfycbwDUBrpC3pl3R2oKFiNbhJByZJXcVEjZnhpCRxcGNhfFD25tXcZbgTg5_Axd6HNJo-T/exec";
+    const resultado = document.getElementById("resultado");
 
-    function probarConexion() {
-      document.getElementById("resultado").textContent = "⏳ Enviando datos...";
-      fetch(URL_SCRIPT, {
-        method: "POST",
-        body: JSON.stringify({
-          nombre: "Conexión de prueba",
-          telefono: "0000000000",
-          poblacion: "Zacualpan",
-          cantidad: 1
-        }),
-        headers: { "Content-Type": "application/json" }
+    fetch("https://script.google.com/macros/s/AKfycbwDUBrpC3pl3R2oKFiNbhJByZJXcVEjZnhpCRxcGNhfFD25tXcZbgTg5_Axd6HNJo-T/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        nombre: "Conexión automática",
+        telefono: "0000000000",
+        poblacion: "Zacualpan",
+        cantidad: 1
       })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("resultado").textContent = `✅ Conexión exitosa. Folio: ${data.folio}`;
-      })
-      .catch(error => {
-        console.error(error);
-        document.getElementById("resultado").textContent = "❌ No se pudo conectar con el servidor.";
-      });
-    }
+    })
+    .then(res => res.json())
+    .then(data => {
+      resultado.textContent = `✅ Conexión exitosa. Folio: ${data.folio}`;
+    })
+    .catch(error => {
+      resultado.textContent = "❌ No se pudo conectar con el servidor.";
+      console.error("Error:", error);
+    });
   </script>
 </body>
 </html>
